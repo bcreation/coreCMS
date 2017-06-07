@@ -9,8 +9,13 @@
         call_user_func_array(
             array($controller, $this->request->action), $this->request->params
         );
+        $controller->render($this->action);
     }
 
+    function error(){
+
+    }
+    
     function loadController(){
         $name = ucfirst($this->request->controller ).'Controller';
         $file = ROOT.DS.'controller'.DS.$name.'.php';
