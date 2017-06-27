@@ -5,9 +5,9 @@
     function __construct(){
         $this->request = new Request;
         Router::parse($this->request->url, $this->request);
-        $controller = $this->loadController();       
+        $controller = $this->loadController();      
         if (!in_array($this->request->action,get_class_methods($controller))){
-            $this->error('Le controlleur '.$this->request->controller. 'n a pas d action');
+            $this->error('Le controlleur '.$this->request->controller. ' n\'a pas d action');
         }
         call_user_func_array(
             array($controller, $this->request->action), $this->request->params
