@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>WULFILA</title>
+        <title>WULFILA <?= isset($title_for_layout)? ' | '.$title_for_layout : ''; ?></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -14,10 +14,18 @@
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
-      <div class="container">
-          <?= $content_for_layout ?>
-      </div>
+        <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav">
+                <li><a href="#">Home</a></li>
+                <?php $pagesMenu = $this->request('Pages', 'getMenu'); ?>
+                <?php foreach($pagesMenu as $p): ?>
+                    <li><a href="#"><?= $p->post_name ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+        </nav>
+        <div class="container">
+            <?= $content_for_layout ?>
+        </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
