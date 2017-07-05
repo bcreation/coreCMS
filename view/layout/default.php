@@ -16,11 +16,16 @@
         <![endif]-->
         <nav class="navbar navbar-default">
             <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
+                <li><a href="<?= BASE_URL; ?>">Home</a></li>
                 <?php $pagesMenu = $this->request('Pages', 'getMenu'); ?>
                 <?php foreach($pagesMenu as $p): ?>
-                    <li><a href="#"><?= $p->post_name ?></a></li>
+                    <li>
+                        <a href="<?= BASE_URL.'pages/view/'.$p->id; ?>" title="<?= $p->post_name; ?>" >
+                        <?= $p->post_name; ?>
+                        </a>
+                    </li>
                 <?php endforeach; ?>
+                <li><a href="<?= BASE_URL.'posts'; ?>">posts</a></li>
             </ul>
         </nav>
         <div class="container">

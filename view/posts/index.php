@@ -1,0 +1,18 @@
+<div class="page-header">
+    <h1>blog</h1>
+</div>
+<?php foreach( $posts as $k => $v): ?>
+    <h2><?= $v->post_name ?></h2>
+    <p><?= $v->post_content ?></p>
+    <a href="<?= BASE_URL.'posts/view/'.$v->id; ?>" title="<?= $v->post_name; ?>" >
+        la suite
+    </a>
+<?php endforeach ?>
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <?php for( $c= 1;  $c <= $page; $c++): ?>
+         <li><a href="?post=<?= $c; ?>"><?= $c ?></a></li>
+    <?php endfor ?>
+  </ul>
+</nav>

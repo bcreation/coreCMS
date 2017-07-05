@@ -15,7 +15,9 @@ class PagesController extends Controller{
         $d['page'] = $this->Post->findFirst(
             array(
                 'conditions' => array(
-                    'id'=>$id,
+                'id'=>$id,
+                'post_online'=>1,
+                'post_type'=>'work'
                 )
             )
         );
@@ -32,7 +34,14 @@ class PagesController extends Controller{
  */
     function getMenu(){
         $this->loadModel('Post');      
-        return $this->Post->find();
+        return $this->Post->find(
+            array(
+                'conditions' => array(
+                'post_online'=>1,
+                'post_type'=>'work'
+                )
+            )
+            );
     }
 
 }

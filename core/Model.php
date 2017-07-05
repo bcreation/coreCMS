@@ -6,6 +6,7 @@ class Model{
     public $conf = 'default';
     public $table = false;
     public $db;
+    public $primaryKey = 'id';
 /**
  * Undocumented function
  */
@@ -48,7 +49,19 @@ class Model{
  */
     public function find($req){
        
-      $sql = 'SELECT * FROM '.$this->table. ' as '. get_class($this) . '';
+      $sql = 'SELECT ' ;
+
+       if ( isset($req['fields'])){
+           if(is_array($req['fields'])){
+               $sql .= implode(', ', $req['fields']);
+           }else{
+               $sql .= $req['fields'];
+           }
+       }else{
+           $sql .= '*' ;
+       }
+
+       $sql .= ' FROM '.$this->table. ' as '. get_class($this) . '';
       if ( isset($req['conditions'])){
           $sql .= ' WHERE ';
           if ( !is_array($req['conditions'])){
@@ -67,6 +80,10 @@ class Model{
 
       }
       
+      if ( isset($req['limit'])){
+        $sql .= ' LIMIT ' .$req['limit'];
+      }
+
       $pre = $this->db->prepare($sql);
       $pre->execute();
       return $pre->fetchAll(PDO::FETCH_OBJ);
@@ -77,8 +94,23 @@ class Model{
  * @param [type] $req
  * @return void
  */
-    public function findFirst($req){   
+    public function findFirst($req){          
       return current($this->find($req));
+    }
+
+    /**
+ * Undocumented function
+ *
+ * @param [type] $req
+ * @return void
+ */
+    public function findCount($conditions){ 
+      $res = $this->findFirst(array(
+        'fields' => 'COUNT('.$this->primaryKey.') as count',
+        'conditions' => $conditions,
+      ));
+
+      return $res->count;
     }
 
 
