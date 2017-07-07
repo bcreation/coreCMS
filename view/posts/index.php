@@ -12,7 +12,7 @@
 <nav aria-label="Page navigation">
   <ul class="pagination">
     <?php for( $c= 1;  $c <= $page; $c++): ?>
-         <li><a href="?post=<?= $c; ?>"><?= $c ?></a></li>
+         <li><a href="?page=<?= $c; ?>"><?= $c ?></a></li>
     <?php endfor ?>
   </ul>
 </nav>

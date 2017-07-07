@@ -23,7 +23,6 @@
     }
 
     function loadController(){
-        var_dump($name);
         $name = ucfirst($this->request->controller ).'Controller';              
         $file = ROOT.DS.'controller'.DS.$name.'.php';
         if( file_exists($file) !== true ){

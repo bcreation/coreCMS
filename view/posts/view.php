@@ -4,3 +4,4 @@
     <p><?= $page->post_content; ?>
 
 </div>
+<?php debug($page); ?>
