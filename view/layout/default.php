@@ -20,12 +20,12 @@
                 <?php $pagesMenu = $this->request('Pages', 'getMenu'); ?>
                 <?php foreach($pagesMenu as $p): ?>
                     <li>
-                        <a href="<?= BASE_URL.'pages/view/'.$p->id; ?>" title="<?= $p->name; ?>" >
+                        <a href="/<?= Router::url("pages/view/id:{$p->id}/slug:$p->slug"); ?>" title="<?= $p->name; ?>" >
                         <?= $p->name; ?>
                         </a>
                     </li>
                 <?php endforeach; ?>
-                <li><a href="<?= BASE_URL.'posts'; ?>">posts</a></li>
+                <li><a href="<?= Router::url("posts/"); ?>">posts</a></li>
             </ul>
         </nav>
         <div class="container">

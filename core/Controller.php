@@ -91,4 +91,18 @@ class Controller{
 
     }
 
+    /**
+ * Redirect slug
+ *
+ * @param [type] $url
+ * @param [type] $code
+ * @return void
+ */
+public function redirect($url, $code){
+    if( $code === 301) {
+        header('HTTP/1.1 301 Moved Permanently');
+    }
+    header('Location :'.Router::url($url));
+}
+
 }

@@ -39,11 +39,12 @@ class PostsController extends Controller{
  * @param [type] $id
  * @return void
  */
-    function view($id){
+    function view($id, $slug){
         $perPage = 1;
         $this->loadModel('Post');      
-        $d['page'] = $this->Post->findFirst(
+        $d['post'] = $this->Post->findFirst(
             array(
+                'fields' => 'id, slug, content, name',
                 'conditions' => array(
                 'id'=>$id,
                 'online'=> 1,
@@ -51,8 +52,12 @@ class PostsController extends Controller{
                 )
             )
         );
-        if ( empty($d['page'])){
+        if ( empty($d['post'])){
             $this->e404('Page introuvable');
+        }
+       
+        if( $slug !== $d['post']->slug){
+            $this->redirect("posts/view/id:$id/slug:".$d['post']->slug, 301);
         }
         $this->set($d);
     }
