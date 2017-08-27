@@ -16,8 +16,8 @@ class PagesController extends Controller{
             array(
                 'conditions' => array(
                 'id'=>$id,
-                'post_online'=>1,
-                'post_type'=>'work'
+                'online'=>1,
+                'type'=>'work'
                 )
             )
         );
@@ -37,11 +37,11 @@ class PagesController extends Controller{
         return $this->Post->find(
             array(
                 'conditions' => array(
-                'post_online'=>1,
-                'post_type'=>'work'
+                'online'=>1,
+                'type'=>'work'
                 )
             )
-            );
+        );
     }
 
 }

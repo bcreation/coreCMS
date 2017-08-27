@@ -18,7 +18,6 @@ class Controller{
  * @return void
  */
     public function render($view){
-  
         if($this->rendered){
             return false;
         }
@@ -29,10 +28,11 @@ class Controller{
         }else{
             $view = ROOT.DS.'view'.DS.$this->request->controller.DS.$view.'.php';
         }
-        ob_start();
-        require($view);
+
+        ob_start();       
+        require($view);    
         $content_for_layout = ob_get_clean();
-        require ROOT.DS.'view'.DS.'layout'.DS.'default.php';
+        require ROOT.DS.'view'.DS.'layout'.DS.$this->layout.'.php';
         $this->rendered = true;
     }
 /**
@@ -84,7 +84,6 @@ class Controller{
  * @return void
  */
     public function request($controller, $action){
-
         $controller .= 'Controller';
         require_once ROOT.DS.'controller'.DS.$controller.'.php';
         $c = new $controller();

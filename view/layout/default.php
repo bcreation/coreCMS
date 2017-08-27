@@ -20,8 +20,8 @@
                 <?php $pagesMenu = $this->request('Pages', 'getMenu'); ?>
                 <?php foreach($pagesMenu as $p): ?>
                     <li>
-                        <a href="<?= BASE_URL.'pages/view/'.$p->id; ?>" title="<?= $p->post_name; ?>" >
-                        <?= $p->post_name; ?>
+                        <a href="<?= BASE_URL.'pages/view/'.$p->id; ?>" title="<?= $p->name; ?>" >
+                        <?= $p->name; ?>
                         </a>
                     </li>
                 <?php endforeach; ?>

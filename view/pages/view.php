@@ -1,6 +1,5 @@
-<?php $title_for_layout = $page->post_name ?>
+<?php $title_for_layout = $page->name ?>
 <div class="jumbotron">
-    <h1><?= $page->post_name; ?></h1>
-    <p><?= $page->post_content; ?>
-
+    <h1><?= $page->name; ?></h1>
+    <p><?= $page->content; ?></p>
 </div>

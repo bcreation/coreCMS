@@ -9,21 +9,54 @@
     **/
     static function parse($url, $request){
         $url = trim($url,'/');
+        foreach(Router::$routes as $k=>$v){
+            if( preg_match($v['catcher'], $url, $match)){
+                $request->controller = $v['controlleur'];
+                $request->action = $v['action'];
+                $request->params = array();
+                foreach($v['params'] as $k=>$v){
+                    $request->params[$k] = $match[$k];                    
+                }
+                return $request;
+            }
+        }
         $params = explode('/', $url);
         $request->controller = $params[0];
         $request->action = isset($params[1]) ? $params[1] : 'index' ;
         $request->params = array_slice($params,2);
         return true;
     }
-
+    
     /**
-    * Permet de parser une url
-    * @redir : $url  URL a parser 
-    * @url : tableau des paramètres 
-    **/
-    static function connect($redir,$url){
+     * Permet de parser une url
+     * @redir : $url  URL a parser 
+     * @url : tableau des paramètres 
+     **/
+     static function connect($redir,$url){
         $r=array();
-        $r['origin'] = '/'.str_replace('/', '\/', $url).'/';
+        $r['params']=array();
+        $r['redir'] = $redir;
+        $r['origin'] = preg_replace('/([a-z0-9]+):([^\/]+)/','${1}:(?P<${1}>${2})', $url);
+        $r['origin'] = '/'.str_replace('/', '\/', $r['origin']).'/';
+
+        $params = explode('/', $url);
+        foreach($params as $k=>$v){
+            if(strpos($v,':') ){
+                $p = explode(':', $v);
+                $r['params'][$p[0]]  = $p[1];
+            }else{
+                if($k === 0){
+                    $r['controlleur'] = $v;
+                }else if($k === 1){
+                    $r['action'] = $v;
+                }
+            }
+        }
+        $r['catcher'] = $redir;
+        foreach($r['params']as $k=>$v){
+            $r['catcher'] = str_replace(":$k","(?P<$k>$v)",$r['catcher']);
+        }
+        $r['catcher'] = '/'.str_replace('/', '\/', $r['catcher']).'/';
         self::$routes[] = $r;
     }
 
@@ -32,9 +65,14 @@
     * @url : $url  URL a parser 
     **/
     static function url($url){
-        foreach(self::$route as $v){
+        foreach(self::$routes as $v){
             if( preg_match($v['origin'], $url, $match)){
-                debug($match);
+                foreach($match as $k=>$w){
+                    if(!is_numeric($k)){
+                        $v['redir'] = str_replace(":$k", $w, $v['redir'] );
+                    }
+                }
+                return $v['redir'];
             }
         }
         return $url;

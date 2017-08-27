@@ -2,9 +2,9 @@
     <h1>blog</h1>
 </div>
 <?php foreach( $posts as $k => $v): ?>
-    <h2><?= $v->post_name ?></h2>
-    <p><?= $v->post_content ?></p>
-    <a href="<?= Router::url("posts/view/id:{$v->id}/slug:$v->post_slug"); ?>" title="<?= $v->post_name; ?>" >
+    <h2><?= $v->name ?></h2>
+    <p><?= $v->content ?></p>
+    <a href="/<?= Router::url("posts/view/id:{$v->id}/slug:$v->slug"); ?>" title="<?= $v->name; ?>" >
         la suite
     </a>
 <?php endforeach ?>

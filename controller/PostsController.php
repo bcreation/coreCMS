@@ -16,8 +16,8 @@ class PostsController extends Controller{
         $this->loadModel('Post');  
 
         $condition =  array(
-                    'post_online' => 1,
-                    'post_type' => 'post'
+                    'online' => 1,
+                    'type' => 'post'
                 ) ;
 
         $d['posts'] = $this->Post->find(array(
@@ -29,6 +29,7 @@ class PostsController extends Controller{
         if ( empty($d['posts'])){
             $this->e404('Page introuvable');
         }
+
         $this->set($d);
     }
 
@@ -45,8 +46,8 @@ class PostsController extends Controller{
             array(
                 'conditions' => array(
                 'id'=>$id,
-                'post_online'=> 1,
-                'post_type'=>'post'                
+                'online'=> 1,
+                'type'=>'post'                
                 )
             )
         );
