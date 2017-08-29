@@ -29,6 +29,7 @@
             </ul>
         </nav>
         <div class="container">
+            <?= $this->Session->flash() ?>
             <?= $content_for_layout ?>
         </div>
 

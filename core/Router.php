@@ -2,6 +2,17 @@
  class Router{
 
     static $routes = array();
+    static $prefixes = array();
+
+     /**
+    * Permet de parser une url
+    * @param : $url  URL a parser 
+    * @return : tableau des paramètres 
+    **/
+    static function prefix($url, $prefix){
+        self::$prefixes[$url] = $prefix;
+    }
+
     /**
     * Permet de parser une url
     * @param : $url  URL a parser 
@@ -25,6 +36,10 @@
             }
         }
         $params = explode('/', $url);
+        if( in_array($params[0], array_keys(self::$prefixes)) ){
+            $request->prefix = self::$prefixes[$params[0]];
+            array_shift($params);
+        }
         $request->controller = $params[0];
         $request->action = isset($params[1]) ? $params[1] : 'index' ;
         $request->params = array_slice($params,2);
@@ -69,6 +84,7 @@
     * @url : $url  URL a parser 
     **/
     static function url($url){
+        
         foreach(self::$routes as $v){
             if( preg_match($v['origin'], $url, $match)){
                 foreach($match as $k=>$w){
@@ -77,6 +93,11 @@
                     }
                 }
                 return str_replace('//','/', $v['redir'].$match['args']);
+            }
+        }
+        foreach(self::$prefixes as $k=>$v){
+            if(strpos($url, $v) === 0){
+                $url = str_replace($v,$k,$url);
             }
         }
         return '/'.$url;

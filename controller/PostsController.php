@@ -5,8 +5,8 @@
  */
 class PostsController extends Controller{
 
-    /**
- * Return the index by passing thez id of post
+/**
+ * Return the index by passing the id of post
  *
  * @param [type] $id
  * @return void
@@ -34,7 +34,7 @@ class PostsController extends Controller{
     }
 
 /**
- * Return the view by passing thez id of post
+ * Return the view by passing the id of post
  *
  * @param [type] $id
  * @return void
@@ -63,5 +63,64 @@ class PostsController extends Controller{
     }
 
 
+/**
+ * Return the index by passing thez id of post
+ *
+ * @param [type] $id
+ * @return void
+ */
+    function admin_index(){
+        $perPage = 10;
+        $this->loadModel('Post');  
 
+        $condition =  array(
+                    'type' => 'post'
+                ) ;
+
+        $d['posts'] = $this->Post->find(array(
+                'fields' => 'id, name, online',
+                'conditions' => $condition,
+                'limit' => ($perPage*( $this->request->page-1).','. $perPage)
+            ));
+        $d['total'] = $this->Post->findCount($condition);
+        $d['page'] = ceil($d['total'] / $perPage);
+        if ( empty($d['posts'])){
+            $this->e404('Page introuvable');
+        }
+
+        $this->set($d);
+    }
+
+    /**
+     * Delete a item
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function admin_edit($id = null){
+        $this->loadModel('Post');  
+
+        if($this->request->data){
+            $this->Post->save($this->request->data);
+        }
+        if($id){
+            $this->request->data = $this->Post->findFirst(
+                array('conditions' => array('id' => $id))
+            );  
+
+        }
+    }
+
+    /**
+     * Delete a item
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function admin_delete($id){
+        $this->loadModel('Post');  
+        $this->Session->setFlash("Contenu supprimé");
+        //$this->Post->delete($id);  
+        $this->redirect("admin/posts/index");
+    }
 }

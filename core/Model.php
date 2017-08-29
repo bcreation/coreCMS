@@ -42,7 +42,7 @@ class Model{
        
     }
 /**
- * Undocumented function
+ * Find all 
  *
  * @param [type] $req
  * @return void
@@ -89,7 +89,7 @@ class Model{
       return $pre->fetchAll(PDO::FETCH_OBJ);
     }
 /**
- * Undocumented function
+ * Find first
  *
  * @param [type] $req
  * @return void
@@ -112,6 +112,35 @@ class Model{
 
       return $res->count;
     }
+/**
+ * Delete datas
+ *
+ * @return void
+ */
+    public function delete($id){
+        $sql = "DELETE  FROM {$this->table} WHERE {$this->primaryKey} = $id ";
+        $this->db->query($sql);
+    }
 
-
+    /**
+     * Save datas
+     *
+     * @return void
+     */
+    public function save($data){
+        $key = $this->primaryKey;
+        $fields = array();
+        $d = array();
+        foreach($data as $k=>$v){
+            $fields[] = "$k=:$k"; 
+            $d[":$k"] = $v;
+        }
+        if(isset($data->$key) && !empty($data->$key)){
+            $sql = 'UPDATE '.$this->table.' SET '.implode(',',$fields).' WHERE '.$key.'=:'.$key ;
+        }
+        $pre = $this->db->prepare($sql);
+        $s = $pre->execute($d);
+        return true;
+    }
 }
+

@@ -1,5 +1,6 @@
 <?php 
 
+    require 'Session.php';
     require 'functions.php';
     require 'Router.php';
     
@@ -8,5 +9,6 @@
     require 'Request.php';
     require 'Controller.php';
     require 'Model.php';
+    require 'Form.php';
     require 'Dispatcher.php';
 
