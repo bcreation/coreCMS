@@ -1,7 +1,7 @@
 <div class="page-header">
 Manage 
 </div>
-
+<?= debug($post); ?>
 <table class="table">
     <thead>
         <tr>

@@ -29,17 +29,18 @@ class PostsController extends Controller{
         if ( empty($d['posts'])){
             $this->e404('Page introuvable');
         }
-
+        
         $this->set($d);
     }
-
-/**
- * Return the view by passing the id of post
- *
- * @param [type] $id
- * @return void
- */
+    
+    /**
+     * Return the view by passing the id of post
+     *
+     * @param [type] $id
+     * @return void
+     */
     function view($id, $slug){
+        
         $perPage = 1;
         $this->loadModel('Post');      
         $d['post'] = $this->Post->findFirst(
@@ -73,13 +74,8 @@ class PostsController extends Controller{
         $perPage = 10;
         $this->loadModel('Post');  
 
-        $condition =  array(
-                    'type' => 'post'
-                ) ;
-
         $d['posts'] = $this->Post->find(array(
                 'fields' => 'id, name, online',
-                'conditions' => $condition,
                 'limit' => ($perPage*( $this->request->page-1).','. $perPage)
             ));
         $d['total'] = $this->Post->findCount($condition);
@@ -99,11 +95,11 @@ class PostsController extends Controller{
      */
     public function admin_edit($id = null){
         $this->loadModel('Post');  
-
         if($this->request->data){
             $this->Post->save($this->request->data);
         }
-        if($id){
+
+        if(isset($id)){
             $this->request->data = $this->Post->findFirst(
                 array('conditions' => array('id' => $id))
             );  

@@ -131,15 +131,26 @@ class Model{
         $key = $this->primaryKey;
         $fields = array();
         $d = array();
+        if(isset($data->$key)){
+            unset($data->$key);
+        }
         foreach($data as $k=>$v){
             $fields[] = "$k=:$k"; 
             $d[":$k"] = $v;
         }
         if(isset($data->$key) && !empty($data->$key)){
             $sql = 'UPDATE '.$this->table.' SET '.implode(',',$fields).' WHERE '.$key.'=:'.$key ;
+            $action = 'update';
+        }else {
+            $sql = 'INSERT INTO '.$this->table.' SET '.implode(',',$fields);
+            $this->id= $data->key;
+            $action = 'insert';
         }
         $pre = $this->db->prepare($sql);
         $s = $pre->execute($d);
+        if($action == 'insert'){
+            $this->id = $this->db->lastInsertId();
+        }
         return true;
     }
 }

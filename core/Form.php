@@ -25,7 +25,7 @@ class Form {
         }else if ($option['type'] == 'checkbox' ) {
             $html .= '<div class="checkbox">
                 <label>
-                <input type="checkbox" name="'.$name.'" '.($this->controller->request->data->$name != 0 ? "checked" : "").'>
+                <input type="checkbox" name="'.$name.'" '.($this->controller->request->data->$name == "on" ? "checked" : "").'>
                 '.(is_string($this->controller->request->data->$name) ? $this->controller->request->data->$name : "").'
                 </label>
             </div>';
