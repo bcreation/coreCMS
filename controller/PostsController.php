@@ -95,16 +95,18 @@ class PostsController extends Controller{
      */
     public function admin_edit($id = null){
         $this->loadModel('Post');  
+        $d['id'] = '';
         if($this->request->data){
             $this->Post->save($this->request->data);
+            $id = $this->Post->id;
         }
-
         if(isset($id)){
             $this->request->data = $this->Post->findFirst(
                 array('conditions' => array('id' => $id))
             );  
-
+            $d['id'] = $id;
         }
+        $this->set($d);
     }
 
     /**

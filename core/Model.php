@@ -7,6 +7,7 @@ class Model{
     public $table = false;
     public $db;
     public $primaryKey = 'id';
+    public $id;
 /**
  * Undocumented function
  */
@@ -131,27 +132,30 @@ class Model{
         $key = $this->primaryKey;
         $fields = array();
         $d = array();
-        if(isset($data->$key)){
-            unset($data->$key);
-        }
+        
         foreach($data as $k=>$v){
             $fields[] = "$k=:$k"; 
             $d[":$k"] = $v;
         }
-        if(isset($data->$key) && !empty($data->$key)){
+        if(isset($data->$key) && !empty($data->$key)){    
             $sql = 'UPDATE '.$this->table.' SET '.implode(',',$fields).' WHERE '.$key.'=:'.$key ;
+            $this->id = $data->key;
             $action = 'update';
         }else {
+            if(isset($data->$key)){
+                unset($data->$key);
+            }
             $sql = 'INSERT INTO '.$this->table.' SET '.implode(',',$fields);
-            $this->id= $data->key;
             $action = 'insert';
         }
+        debug($data);
+        debug($sql);
         $pre = $this->db->prepare($sql);
-        $s = $pre->execute($d);
+        $pre->execute($d);
         if($action == 'insert'){
             $this->id = $this->db->lastInsertId();
         }
-        return true;
+        debug($this->id );
     }
 }
 
